@@ -12,6 +12,9 @@ const config = {
     measurementId: "G-EQJRBMZH7D"
   };
 
+
+  //This method is , After getting auth object by logging in , it checks if there is values using snapshot object
+  //if 26 line , i.e snapshot doesnot exists a new document is saved with the new crdentials in the database
   export const createUserProfileDocument = async (userAuth , additionalData) => {
        
     if (!userAuth) {
