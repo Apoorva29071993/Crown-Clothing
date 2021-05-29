@@ -73,6 +73,7 @@ const mapStateToProps = ({user}) => ({
   currentUser : user.currentUser
 })
 
+//dispatch return the action setCurrentUser with argument user
 const mapDispatchToProps = (dispatch) => ({
     setCurrentUser : user => dispatch(setCurrentUser(user))
 })
