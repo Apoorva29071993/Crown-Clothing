@@ -8,7 +8,6 @@ import {connect} from 'react-redux';
 
 import { selectCollection } from '../../redux/shop/shop.selectors';
 
-import { createStructuredSelector } from 'reselect';
 
 const CollectionPage = ({collection}) => {
 
