@@ -5,7 +5,7 @@ import ShopPage from './components/shop/shop.component.jsx';
 import {Route , Switch , Redirect } from 'react-router-dom';
 import Header from './components/header/header.component.jsx';
 import SignInAndSignUpPage from './pages/sign-in-and-sign-up/sign-in-and-sign-up.component.jsx';
-import {auth , createUserProfileDocument} from './firebase/firebase.utils';
+import {auth , createUserProfileDocument } from './firebase/firebase.utils';
 import { connect } from 'react-redux';
 import { setCurrentUser } from './redux/user/user.actions';
 
@@ -13,6 +13,8 @@ import { createStructuredSelector } from 'reselect';
 import { selectCurrentUser } from './redux/user/user.selectors';
 
 import CheckOutPage from "./components/checkout/checkout.component.jsx";
+
+import { selectCollectionsForPreview } from './redux/shop/shop.selectors';
 
 
 class App extends React.Component {
@@ -23,24 +25,24 @@ class App extends React.Component {
 //In this method after logging in from gmail we get userAuth object and if it is true we use createUserProfileDocument method
 //to save a copy in firestore and send back the userRef object and after that we store it in the state object for local use
 //auth.onAuthStateChanged is called after logging in from UI
+
+//this.unSubscribeFromAuth --- onAuthStateChanged is a observer for a chain of  events that gets called when a user is added
   componentDidMount() {
     console.log("App Mounted");
 
-    const {setCurrentUser} = this.props;
+    const {setCurrentUser } = this.props;
 
     this.unSubscribeFromAuth = auth.onAuthStateChanged( async userAuth => {
       if (userAuth) {
         console.log("User auth started ");
         const userRef = await createUserProfileDocument(userAuth);
 
-        userRef.onSnapshot(snapshot => {
-          
+        userRef.onSnapshot(snapshot => {  
             setCurrentUser ({
               id : snapshot.id ,
               ...snapshot.data()
             })
          
-
           console.log(this.state);
 
         });
@@ -76,7 +78,8 @@ class App extends React.Component {
 }
 
 const mapStateToProps = createStructuredSelector({
-  currentUser : selectCurrentUser
+  currentUser : selectCurrentUser,
+  collectionsArray : selectCollectionsForPreview
 })
 
 //dispatch return the action setCurrentUser with argument user
